@@ -6,7 +6,7 @@ if (next == 4) {
     next = 1;
 }
 var link = "./" + next;
-console.log(link);
+
 
 </script>
 
@@ -15,7 +15,8 @@ console.log(link);
         <h1>Project {{ id }}</h1>
         <div>Content {{ id }}</div>
         <NuxtLink :href="link">
-            <div id="nextProject" v-motion="'next'" :initial="initial" :enter="enter" :tapped="tapped">
+            <!-- <div id="nextProject" v-motion="'next'" :initial="initial" :enter="enter" :tapped="tapped"> -->
+            <div>
                 <h2 class=" nextProject">Project {{ next }}</h2>
             </div>
         </NuxtLink>
@@ -23,3 +24,4 @@ console.log(link);
 </template> 
 
 
+<style scoped></style>

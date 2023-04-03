@@ -11,5 +11,8 @@
   "devDependencies": {
     "@types/node": "^18.15.11",
     "nuxt": "^3.3.2"
+  },
+  "dependencies": {
+    "@vueuse/motion": "^2.0.0-beta.27"
   }
 }
