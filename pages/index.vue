@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMotions, useMotionProperties } from '@vueuse/motion';
+import { useMotion, useMotions, useMotionProperties } from '@vueuse/motion';
 
 var posx = 0;
 var posy = 0;
@@ -11,35 +11,50 @@ definePageMeta({
     }
 })
 
-function clicked(el) {
-    const clickedElement = el.target;
+function clicked(el: MouseEvent) {
+    const clickedElement = el.target as HTMLElement;
+    if (!clickedElement) return;
 
+    // get the position of the clicked element
     const rect = clickedElement.getBoundingClientRect();
 
-    var clonedElement = clickedElement.cloneNode(true);
+    // clone the element
+    var clonedElement = clickedElement.cloneNode(true) as HTMLElement;
     clonedElement.id = "clonedElement";
-    clonedElement.style.margin = "0px";
+    document.body.appendChild(clonedElement);
+    // hide the original (clicked) element
+    clickedElement.style.visibility = "hidden";
 
-    var newElement = document.getElementById("newElement");
-    if (newElement) {
-        newElement.innerHTML = '';
-        //newElement.style.left = rect.left + "px";
-        // newElement.style.top = rect.top + "px";
-        // newElement.style.transform = "translate(" + rect.left + "px, " + rect.top + "px";
-        newElement.appendChild(clonedElement);
-        clickedElement.style.visibility = "hidden";
+    // animate element to new position
+    //    const target = ref<HTMLElement>()
 
-        const { newEl } = useMotions();
-        newEl.apply({
+    const motionInstance = useMotion(clonedElement, {
+        initial: {
             x: rect.left,
-            y: rect.top,
+            y: rect.top
+        },
+        enter: {
+            y: 50,
             transition: {
-                type: 'keyframes',
-                duration: 0,
+                delay: 100,
+                type: 'spring',
+                stiffness: 500,
+                damping: 50,
+                mass: 1,
             }
-        });
+        }
+    });
 
-    }
+    // const { newEl } = useMotions();
+    // newEl.apply({
+    //     x: rect.left,
+    //     y: rect.top,
+    //     transition: {
+    //         type: 'keyframes',
+    //         duration: 0,
+    //     }
+    // });
+
 }
 
 
@@ -73,4 +88,14 @@ function clicked(el) {
     opacity: 0;
     transform: translate(200px, 0px);
 } */
+
+#clonedElement {
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    color: black;
+}
 </style>
